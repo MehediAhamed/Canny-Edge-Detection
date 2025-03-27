@@ -80,13 +80,13 @@ def double_threshold_image(img, lowThreshold, highThreshold, weak_value):
     M, N = img.shape
     thresholded_img = np.zeros((M, N), dtype=np.int32)
     strong_value = 255
-    zeros_i, zeros_j = np.where(img < lowThreshold)
-    weak_i, weak_j = np.where((img <= highThreshold) & (img >= lowThreshold))
-    strong_i, strong_j = np.where(img > highThreshold)
-
+    
+    strong_i, strong_j = np.where(img >= highThreshold)
+    weak_i, weak_j = np.where((img >= lowThreshold) & (img < highThreshold))
+    
     thresholded_img[strong_i, strong_j] = strong_value
     thresholded_img[weak_i, weak_j] = weak_value
-    thresholded_img[zeros_i, zeros_j] = 0
+    
     return thresholded_img
 
 def hysteresis(img, weak, strong=255):
